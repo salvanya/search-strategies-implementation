@@ -3,14 +3,6 @@ from ..models.frontier import StackFrontier
 from ..models.solution import NoSolution, Solution
 from ..models.node import Node
 
-'''
-1 - El algoritmo comienza explorando un nodo inicial
-2 - luego genera todos los sucesores del nodo en un orden arbitrario
-3 - Una vez que se visita un nodo, el algoritmo se mueve a uno de los sucesores no visitados y 
-4 - continúa explorando 
-5 - a partir de allí si un nodo no tiene sucesores no visitados, 
-el algoritmo retrocede al nodo anterior y explora otros nodos no visitados desde allí.'''
-
 
 class DepthFirstSearch:
     @staticmethod
