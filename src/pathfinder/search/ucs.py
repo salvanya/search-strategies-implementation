@@ -51,4 +51,3 @@ class UniformCostSearch:
                     # Mark the node as explored
                     explored[new_node.state] = new_node
                     frontier.add(new_node, new_node.cost)
-
