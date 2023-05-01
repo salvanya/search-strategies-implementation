@@ -33,8 +33,6 @@ class DepthFirstSearch:
             # Remove a node from the frontier
             node = frontier.remove()
 
-            #Check if the node was already explored
-            
             # Mark the node as explored
             explored[node.state] = True
 
@@ -42,7 +40,7 @@ class DepthFirstSearch:
             if node.state == grid.end:
                 return Solution(node, explored)
 
-            #
+            # Add to frontier unexplored nodes
             neightbours = grid.get_neighbours(node.state)
             for neightbour in neightbours:
                 new_state = neightbours[neightbour]
@@ -51,9 +49,3 @@ class DepthFirstSearch:
                     new_node.parent = node
                     new_node.action = neightbour
                     frontier.add(new_node)
-
-
-
-
-
-
