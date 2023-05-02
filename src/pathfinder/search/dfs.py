@@ -21,7 +21,31 @@ class DepthFirstSearch:
         # Initialize the explored dictionary to be empty
         explored = {} 
         
-        # Add the node to the explored dictionary
-        explored[node.state] = True
-        
-        return NoSolution(explored)
+        # Initialize the frontier with the inital node
+        frontier = StackFrontier()
+        frontier.add(node)
+
+        while True:
+            # Fail if the froiner is empty
+            if frontier.is_empty():
+                return NoSolution(explored)
+            
+            # Remove a node from the frontier
+            node = frontier.remove()
+
+            # Mark the node as explored
+            explored[node.state] = True
+
+            # If the node is the goal, return the solution
+            if node.state == grid.end:
+                return Solution(node, explored)
+
+            # Add to frontier unexplored nodes
+            neightbours = grid.get_neighbours(node.state)
+            for neightbour in neightbours:
+                new_state = neightbours[neightbour]
+                if new_state not in explored:
+                    new_node = Node("", new_state, grid.get_cost(new_state))
+                    new_node.parent = node
+                    new_node.action = neightbour
+                    frontier.add(new_node)
