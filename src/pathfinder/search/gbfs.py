@@ -2,13 +2,13 @@ from ..models.grid import Grid
 from ..models.frontier import PriorityQueueFrontier
 from ..models.solution import NoSolution, Solution
 from ..models.node import Node
-from math import sqrt
+# from math import sqrt
 
 
-def heuristic(node_state, end):
+def heuristic(node_state, end, weight):
             x1, y1 = node_state
             x2, y2 = end
-            return int(sqrt((x2 - x1)**2 + (y2 - y1)**2))
+            return (abs(x2 - x1) + abs(y2 - y1) + weight)
             
 class GreedyBestFirstSearch:
     @staticmethod
@@ -21,8 +21,10 @@ class GreedyBestFirstSearch:
         Returns:
             Solution: Solution found
         """
+
         # Initialize a node with the initial position
-        node = Node("", grid.start, heuristic(grid.start, grid.end))
+        
+        node = Node("", grid.start, heuristic(grid.start, grid.end, grid.get_cost(grid.start)))
 
         # Initialize the frointier
         frontier = PriorityQueueFrontier()
@@ -53,7 +55,7 @@ class GreedyBestFirstSearch:
             
             for neightbour in neightbours:
                 new_state = neightbours[neightbour]
-                new_cost = heuristic(node.state, grid.end)
+                new_cost = heuristic(node.state, grid.end, grid.get_cost(new_state))
 
                 if new_state not in explored or new_cost < explored[new_state].cost:
                     new_node = Node("", new_state, new_cost)
