@@ -100,7 +100,8 @@ class PriorityQueueFrontier(Frontier):
         """
         for priority, node in self.frontier:
             if node.state == state:
-                return (priority, node)
+                return node
+                """ return (priority, node) """
 
         return None
 
