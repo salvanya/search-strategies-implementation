@@ -6,8 +6,9 @@ from ..models.node import Node
 
 class BreadthFirstSearch:
     @staticmethod
+        # Initialize a node with the initial position
     def search(grid: Grid) -> Solution:
-        """Find path between two points in a grid using Breadth First Search
+        """Find path between two points in a grid using Depth First Search
 
         Args:
             grid (Grid): Grid of points
@@ -21,40 +22,31 @@ class BreadthFirstSearch:
         # Initialize the explored dictionary to be empty
         explored = {} 
         
-        # Mark the node as explored
-        explored[node.state] = True
-
-        # Check if first node (root) is solution
-        # Return if the node contains a goal state
-        if node.state == grid.end:
-            return Solution(node, explored)
-        
-        # Initialize the frontier with the initial node
+        # Initialize the frontier with the inital node
         frontier = QueueFrontier()
         frontier.add(node)
 
         while True:
-
-            #  Fail if the frontier is empty
+            # Fail if the froiner is empty
             if frontier.is_empty():
                 return NoSolution(explored)
-
+            
             # Remove a node from the frontier
             node = frontier.remove()
 
-            neighbours = grid.get_neighbours(node.state)
-            for possible_action in neighbours:
-                new_state = neighbours[possible_action]
-                child_node = Node("", new_state , node.cost + grid.get_cost(new_state))
-                child_node.parent = node
-                child_node.action = possible_action
+            # Mark the node as explored
+            explored[node.state] = True
 
-                # Return if the node contains a goal state
-                if child_node.state == grid.end:
-                    return Solution(node, explored)
-                
-                if child_node.state not in explored:
-                    # Add the node to the explored dictionary
-                    explored[child_node.state] = True
-                    # Add the new node to the frontier
-                    frontier.add(child_node)
+            # If the node is the goal, return the solution
+            if node.state == grid.end:
+                return Solution(node, explored)
+
+            # Add to frontier unexplored nodes
+            neightbours = grid.get_neighbours(node.state)
+            for neightbour in neightbours:
+                new_state = neightbours[neightbour]
+                if new_state not in explored:
+                    new_node = Node("", new_state, grid.get_cost(new_state))
+                    new_node.parent = node
+                    new_node.action = neightbour
+                    frontier.add(new_node)
