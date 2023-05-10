@@ -22,9 +22,10 @@ class BreadthFirstSearch:
         explored = {} 
         
         # Mark the node as explored
-        explored[node.state] = node
+        explored[node.state] = True
 
-        # Check if first node (root) is solution Return if the node contains a goal state
+        # Check if first node (root) is solution
+        # Return if the node contains a goal state
         if node.state == grid.end:
             return Solution(node, explored)
         
@@ -33,6 +34,7 @@ class BreadthFirstSearch:
         frontier.add(node)
 
         while True:
+
             #  Fail if the frontier is empty
             if frontier.is_empty():
                 return NoSolution(explored)
@@ -41,7 +43,10 @@ class BreadthFirstSearch:
             node = frontier.remove()
 
             neighbours = grid.get_neighbours(node.state)
-            
+
+            # Childs in the same level costs list
+            cost_list = []
+
             for possible_action in neighbours:
                 new_state = neighbours[possible_action]
                 new_cost = node.cost + grid.get_cost(new_state)
@@ -49,15 +54,20 @@ class BreadthFirstSearch:
                 child_node.parent = node
                 child_node.action = possible_action
 
-                if child_node.state not in explored or new_cost < explored[new_state].cost:
-                    # Add the node to the explored dictionary
-                    explored[child_node.state] = child_node
-                    # Add the new node to the frontier
-                    frontier.add(child_node)
+                cost_list.append(new_cost)
 
                 # Return if the node contains a goal state
                 if child_node.state == grid.end:
-                    print(Solution(node, explored))
-                    return Solution(node, explored)
+                    print(Solution(child_node, explored))
+                    return Solution(child_node, explored)
+                
+                if child_node.state not in explored:
+                    # Add the node to the explored dictionary
+                    explored[child_node.state] = True
+                    # Add the new node to the frontier
+                    if min(cost_list) == new_cost:
+                        frontier.add(child_node)
+            
+            cost_list = []
                 
                 
