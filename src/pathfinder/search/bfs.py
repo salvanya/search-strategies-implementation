@@ -24,8 +24,7 @@ class BreadthFirstSearch:
         # Mark the node as explored
         explored[node.state] = True
 
-        # Check if first node (root) is solution
-        # Return if the node contains a goal state
+        # Check if first node (root) is solution Return if the node contains a goal state
         if node.state == grid.end:
             return Solution(node, explored)
         
@@ -34,7 +33,6 @@ class BreadthFirstSearch:
         frontier.add(node)
 
         while True:
-
             #  Fail if the frontier is empty
             if frontier.is_empty():
                 return NoSolution(explored)
@@ -43,6 +41,7 @@ class BreadthFirstSearch:
             node = frontier.remove()
 
             neighbours = grid.get_neighbours(node.state)
+            
             for possible_action in neighbours:
                 new_state = neighbours[possible_action]
                 child_node = Node("", new_state , node.cost + grid.get_cost(new_state))
