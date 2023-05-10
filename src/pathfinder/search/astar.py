@@ -21,13 +21,13 @@ class AStarSearch:
             Solution: Solution found
         """
         # Initialize a node with the initial position
-        node = Node("", grid.start, heuristic(grid.start, grid.end))
+        node = Node("", grid.start, 0)
 
         # Initialize the frointier
         frontier = PriorityQueueFrontier()
 
         # Add the root to the frontier
-        frontier.add(node, node.cost)
+        frontier.add(node, node.cost + heuristic(grid.start, grid.end))
 
         # Initialize the explored dictionary to be empty
         explored = {} 
@@ -52,7 +52,7 @@ class AStarSearch:
             
             for neightbour in neightbours:
                 new_state = neightbours[neightbour]
-                new_cost = node.cost + grid.get_cost(new_state) + heuristic(node.state, grid.end)
+                new_cost = node.cost + grid.get_cost(new_state)
 
                 if new_state not in explored or new_cost < explored[new_state].cost:
                     new_node = Node("", new_state, new_cost)
@@ -63,5 +63,5 @@ class AStarSearch:
                     explored[new_node.state] = new_node
 
                     #Add the node to frontier
-                    frontier.add(new_node, new_node.cost)
+                    frontier.add(new_node, new_node.cost + heuristic(node.state, grid.end))
                                          
