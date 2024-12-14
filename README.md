@@ -86,3 +86,5 @@ This project was created to provide a visual and interactive way to learn uninfo
 
 Contributions and feedback are welcome!
 
+## Thanks
+This repository uses code written by Mauro Lucci: https://github.com/maurolucci/tuia-prog3.git
